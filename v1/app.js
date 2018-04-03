@@ -22,6 +22,7 @@ server.get('*', (req, res) => {
       return
     }
     console.log(html)
+    res.end(html)
   })
 })
 
