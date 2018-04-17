@@ -1,6 +1,7 @@
 const express = require('express')
 const os = require('os')
 const app = express()
+const opn = require('opn')
 
 function start() {
     app.all('*', function (req, res, next) {
@@ -176,10 +177,24 @@ function start() {
             showMsg: ''
         })
     })
-    let port = 7000
+    let port = 7001
     app.listen(port, () => {
-        console.log('server start at ' + port)
+        let url = `http://${getAddress()}:${port}`
+        console.log('即将自动打开：', url)
+        opn(url)
     })
+}
+function getAddress() {
+    let iptable = '',
+        ifaces = os.networkInterfaces()
+    for (let dev in ifaces) {
+        ifaces[dev].forEach(function(details, alias) {
+            if (details.family === 'IPv4') {
+                iptable = details.address
+            }
+        })
+    }
+    return iptable
 }
 
 module.exports = start

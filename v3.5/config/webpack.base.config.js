@@ -1,7 +1,6 @@
 const webpack = require('webpack')
 const path = require('path')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-
 const rootPath = path.resolve(__dirname, '../')
 
 const vueLoader = {
@@ -38,7 +37,7 @@ function getConfig() {
         entry: path.resolve(rootPath, 'src/main.js'),
         // 定义出口
         output: {
-            path: path.resolve(rootPath, 'build/client'),
+            path: path.join(rootPath, 'build/client'),
             publicPath: '../',
             filename: 'script/[name].js'
         },
