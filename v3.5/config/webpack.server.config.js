@@ -1,12 +1,13 @@
 const path = require('path')
 
-const projectRoot = path.resolve(__dirname, '..')
+const projectRoot = path.resolve(__dirname, '../')
+console.log('projectRoot=', projectRoot)
 module.exports = {
     target: 'node',
     entry: path.join(projectRoot, 'src/server-index.js'),
     output: {
         libraryTarget: 'commonjs2',
-        path: path.join(projectRoot, 'build'),
+        path: path.resolve(projectRoot, 'build'),
         filename: 'bundle.server.js'
     },
     module: {
