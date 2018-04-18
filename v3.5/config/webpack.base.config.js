@@ -1,64 +1,47 @@
 const webpack = require('webpack')
 const path = require('path')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const fs = require('fs')
 const rootPath = path.resolve(__dirname, '../')
-
+/*eslint-disable indent */
 const vueLoader = {
-    less: [
-        {
-            loader: path.join(rootPath, 'node_modules/extract-text-webpack-plugin/loader.js'),
-            options: {
-                omit: 1,
-                remove: true
+    loaders: {
+        'less': [{
+            'loader': path.join(rootPath, 'node_modules/extract-text-webpack-plugin/loader.js'),
+            'options': {
+                'omit': 1,
+                'remove': true
             }
         },
-        {
-            loader: 'vue-style-loader'
-        },
-        {
-            loader: 'css-loader',
-            options: {
-                minimize: true,
-                sourceMap: true
+            {
+                'loader': 'vue-style-loader'
+            },
+            {
+                'loader': 'css-loader',
+                'options': {
+                    'minimize': true,
+                    'sourceMap': true
+                }
+            },
+            {
+                'loader': 'less-loader',
+                'options': {
+                    'sourceMap': true
+                }
             }
-        },
-        {
-            loader: 'less-loader',
-            options: {
-                sourceMap: true
-            }
-        }
-    ]
+        ]
+    }
 }
 
 function getConfig() {
     const config = {
-        // 定义入口
+        // 定义应用入口
         entry: path.resolve(rootPath, 'src/main.js'),
-        // 定义出口
+        // 定义输出
         output: {
             path: path.join(rootPath, 'build/client'),
             publicPath: '../',
             filename: 'script/[name].js'
-        },
-        optimization: {
-            splitChunks: {
-                cacheGroups: {
-                    commons: {
-                        chunks: "initial",
-                        minChunks: 2,
-                        maxInitialRequests: 5, // The default limit is too small to showcase the effect
-                        minSize: 0 // This is example is too small to create commons chunks
-                    },
-                    vendor: {
-                        test: /node_modules/,
-                        chunks: "initial",
-                        name: "vendor",
-                        priority: 10,
-                        enforce: true
-                    }
-                }
-            }
         },
         devtool: '#eval-source-map', // 开始source-map. 具体的不同配置信息见webpack文档
         module: {
@@ -89,12 +72,19 @@ function getConfig() {
         resolve: {
             alias: {
                 'vue$': 'vue/dist/vue.common.js',
-                '@': path.join(rootPath)
+                'components': path.join(rootPath, '/src/client/components'), // 定义文件路径， 加速打包过程中webpack路径查找过程
+                'lib': path.join(rootPath, '/src/lib'),
+                'less': path.join(rootPath, '/src/less'),
+                '@': path.resolve(__dirname, '../')
             },
-            extensions: ['.js', '.less', '.vue', '*', '.json']
+            extensions: ['.js', '.less', '.vue', '*', '.json'] // 可以不加后缀, 直接使用 import xx from 'xx' 的语法
         },
         plugins: [
-            new ExtractTextPlugin('css/[name].css')
+            new ExtractTextPlugin('css/[name].css'),
+            // 将vue等框架/库进行单独打包, 并输入到vendors.js文件当中
+            new webpack.optimize.CommonsChunkPlugin({
+                names: ['vendors']
+            })
         ]
     }
     return config

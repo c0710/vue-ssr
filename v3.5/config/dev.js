@@ -1,10 +1,11 @@
 const webpack = require('webpack')
-const config = require('./webpack.base.config')
-const compiler = webpack(config.getConfig())
+const wpCfg = require('./webpack.base.config.js')
+const compiler = webpack(wpCfg.getConfig())
 const server = require('./server')
-compiler.watch({}, function (err, stats) {
-    if (err === null &&　stats.compilation.errors.length === 0) {
-        console.log('compiler success')
+console.log(wpCfg.getConfig().resolve)
+compiler.watch({}, (err, stats) => {
+    if (err === null && stats.compilation.errors.length === 0) {
+        console.log('编译成功')
         server()
     } else {
         console.log('编译出现错误...')

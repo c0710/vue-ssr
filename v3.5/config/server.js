@@ -4,7 +4,7 @@ const app = express()
 const opn = require('opn')
 
 function start() {
-    app.all('*', function (req, res, next) {
+    app.all('*', function(req, res, next) {
         res.header('Access-Control-Allow-Origin', '*')
         res.header('Access-Control-Allow-Headers', 'Content-Type,Content-Length, Authorization, Accept,X-Requested-With')
         res.header('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS')
@@ -13,7 +13,7 @@ function start() {
         else next()
     })
     app.use(express.static('./build'))
-    app.use('/data', function (req, res, next) {
+    app.use('/data', (req, res, next) => {
         res.send({
             code: 1,
             data: {
@@ -177,13 +177,17 @@ function start() {
             showMsg: ''
         })
     })
-    let port = 7001
+    app.use('/test', (req, resp, next) => {
+        resp.send('abc')
+    })
+    let port = 7000
     app.listen(port, () => {
         let url = `http://${getAddress()}:${port}`
         console.log('即将自动打开：', url)
         opn(url)
     })
 }
+
 function getAddress() {
     let iptable = '',
         ifaces = os.networkInterfaces()
