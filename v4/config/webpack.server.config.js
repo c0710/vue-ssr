@@ -1,6 +1,8 @@
 const path = require('path')
-
 const projectRoot = path.resolve(__dirname, '..')
+const VueSSRPlugin = require('vue-ssr-webpack-plugin')
+var nodeExternals = require('webpack-node-externals')
+
 module.exports = {
     target: 'node',
     entry: path.join(projectRoot, 'src/server-index.js'),
@@ -24,5 +26,18 @@ module.exports = {
                 exclude: /node_modules/
             }
         ]
-    }
+    },
+    /**
+     * 如果我们想引用一个库，但是又不想让webpack打包，并且又不影响我们在程序中以CMD、AMD或者window/global全局等方式进行使用，那就可以通过配置externals。
+     * */
+    externals: [
+        nodeExternals({
+            modulesDir: path.resolve('../node_modules')
+        })
+    ],
+    plugins: [
+        new VueSSRPlugin({
+            filename: './build/vue-ssr-bundle.json'
+        })
+    ]
 }

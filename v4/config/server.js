@@ -2,6 +2,35 @@ const express = require('express')
 const os = require('os')
 const app = express()
 const opn = require('opn')
+const path = require('path')
+const fs = require('fs-extra')
+
+const template = `
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="renderer" content="webkit" />
+    <meta name="360-fullscreen" content="true" />
+    <meta name="x5-fullscreen" content="true" />
+    <meta name="full-screen" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="http-equiv=X-UA-COMPATIBLE" content="IE=edge,chrome=1" />
+    <link type="image/x-icon" href="//static1.mtime.cn/favicon.ico" rel="shortcut icon" />
+    <link type="image/x-icon" href="//static1.mtime.cn/favicon.ico" rel="bookmark" />
+    <link rel="apple-touch-icon" href="//static1.mtime.cn/favicon.ico" />
+    <title>时光片方管理平台</title>
+<link href="client/css/main.css" rel="stylesheet"></head>
+<body>
+    <div id="app"></div>
+    <!--vue-ssr-outlet-->
+<script type="text/javascript" src="client/script/vendors.js"></script><script type="text/javascript" src="client/script/main.js"></script></body>
+</html>
+`
+
+const vueServerRenderer = require('vue-server-renderer')
 
 function start() {
     app.all('*', function(req, res, next) {
@@ -13,6 +42,21 @@ function start() {
         else next()
     })
     app.use(express.static('./build'))
+    app.get('/', function (req, res) {
+        const filePath = path.resolve('./build/vue-ssr-bundle.json')
+        const code = fs.readJsonSync(filePath)
+        const bundleRenderer = vueServerRenderer.createBundleRenderer(code, {
+            template: template
+        })
+        bundleRenderer.renderToString((err, html) => {
+            if (err) {
+                console.log(err.message)
+                console.log(err.stack)
+            }
+            res.send(html)
+        })
+
+    })
     app.use('/data', (req, res, next) => {
         res.send({
             code: 1,

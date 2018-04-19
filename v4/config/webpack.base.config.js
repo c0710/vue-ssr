@@ -3,6 +3,7 @@ const path = require('path')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const fs = require('fs')
 const rootPath = path.resolve(__dirname, '../')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 /*eslint-disable indent */
 const vueLoader = {
     loaders: {
@@ -84,6 +85,10 @@ function getConfig() {
             // 将vue等框架/库进行单独打包, 并输入到vendors.js文件当中
             new webpack.optimize.CommonsChunkPlugin({
                 names: ['vendors']
+            }),
+            new HtmlWebpackPlugin({
+                template: 'index.html',
+                filename: 'index.html'
             })
         ]
     }

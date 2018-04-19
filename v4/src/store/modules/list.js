@@ -1,4 +1,6 @@
-import {LIST} from "../mutation-types";
+import {
+    LIST
+} from '../mutation-types'
 
 const state = {
     list: []
@@ -9,15 +11,12 @@ const mutations = {
         state.list = data
     },
     [LIST.ADD_DATA](state, data) {
-        state.list.push(data)
+        state.list = data
     }
 }
-
 const getters = {
     list: state => state.list
 }
-
-
 export default {
     state,
     mutations,

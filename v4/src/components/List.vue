@@ -13,24 +13,25 @@
 
 <script>
     import Vue from 'vue'
+    import {mapGetters} from 'vuex'
+    import {LIST} from "../store/mutation-types";
+
+    const computed = {
+        ...mapGetters([
+            'list'
+        ])
+    }
+
     export default {
         data() {
-            return {
-                list: []
-            }
+            return {}
         },
         methods: {
             showTitle(title) {
                 alert(title)
             }
         },
-        mounted() {
-            Vue.axios.get('http://localhost:7000/data').then(response => {
-                const list = response.data.data.liveWodList
-                this.list = list
-                console.log(list)
-            })
-        }
+        computed
     }
 </script>
 <style lang="less">
