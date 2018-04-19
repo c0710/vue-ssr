@@ -1,8 +1,6 @@
 const webpack = require('webpack')
 const wpCfg = require('./webpack.base.config.js')
 const wpServerCfg = require('./webpack.server.config.js')
-// const compiler = webpack(wpCfg.getConfig())
-// const serverCompiler = webpack(wpServerCfg)
 const server = require('./server')
 
 // client side
