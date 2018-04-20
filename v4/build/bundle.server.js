@@ -109,7 +109,7 @@ var __vue_styles__ = injectStyle
 /* scopeId */
 var __vue_scopeId__ = "data-v-04c2046b"
 /* moduleIdentifier (server only) */
-var __vue_module_identifier__ = "5c8ace8b"
+var __vue_module_identifier__ = "4264a0cb"
 
 var Component = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_App_vue__["a" /* default */],
