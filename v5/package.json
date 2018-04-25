@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rimraf dist && npm run build:client && npm run build:server",
+    "build:client": "webpack --config build/webpack.client.config.js",
+    "build:server": "webpack --config build/webpack.server.config.js"
   },
   "author": "Evannn",
   "license": "ISC",
@@ -25,6 +28,7 @@
     "file-loader": "^0.11.1",
     "fs-extra": "^3.0.1",
     "html-webpack-plugin": "^2.28.0",
+    "rimraf": "^2.6.2",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
     "url-loader": "^0.5.8",

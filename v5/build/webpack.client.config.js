@@ -6,7 +6,7 @@ const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
 
 const config = merge(base, {
     entry: {
-        app: '../src/client.entry.js'
+        app: './src/client-entry.js'
     },
     plugins: [
         new webpack.DefinePlugin({

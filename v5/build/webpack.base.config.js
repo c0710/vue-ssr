@@ -7,7 +7,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, '../dist'),
         publicPath: '/dist/',
-        filename: '[name]-[chunk-hash].js'
+        filename: '[name]-[chunkhash].js'
     },
     resolve: {
         alias: {
@@ -28,7 +28,7 @@ module.exports = {
                         preserveWhiteSpace: false,
                         postcss: [
                             require('autoprefixer')({
-                                browser: ['last 3 versions']
+                                browsers: ['last 3 versions']
                             })
                         ]
                     }
@@ -74,7 +74,7 @@ module.exports = {
         hints: 'warning'
     },
     plugins: [
-        new webpack.optimize.Plugin({
+        new webpack.optimize.UglifyJsPlugin({
             compress: {warnings: false}
         }),
         new ExtractTextPlugin({
